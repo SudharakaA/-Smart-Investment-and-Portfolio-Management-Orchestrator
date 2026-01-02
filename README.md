@@ -1,73 +1,193 @@
-# Welcome to your Lovable project
 
-## Project info
+---
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+# 🚀 Multi-Agent Financial Intelligence System
 
-## How can I edit this code?
+**Smart Investment & Portfolio Management Orchestrator**
 
-There are several ways of editing your application.
+An event-driven, multi-agent financial intelligence system designed to help investors survive (and thrive) in chaotic markets 📉📈.
+This system continuously analyzes market data, global news, risk exposure, and portfolio performance to generate actionable insights in real time.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🧠 What This Project Does
 
-Changes made via Lovable will be committed automatically to this repo.
+This project implements a **hierarchical multi-agent architecture** where specialized agents collaborate to:
 
-**Use your preferred IDE**
+* Monitor live financial markets (stocks, crypto, forex, commodities)
+* Analyze trends & technical indicators
+* Track global financial news and sentiment
+* Evaluate portfolio risk and diversification
+* Suggest portfolio rebalancing strategies
+* Generate human-readable insights & alerts
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Think of it as a **financial command center powered by agents** 🤖💸.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🏗️ System Architecture Overview
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+                ┌────────────────────┐
+                │  External APIs     │
+                │ (Yahoo, Alpha, News│
+                └─────────┬──────────┘
+                          │
+        ┌─────────────────▼─────────────────┐
+        │        Agent Orchestrator           │
+        │           (FastAPI)                 │
+        └───────┬───────┬───────┬────────────┘
+                │       │       │
+ ┌──────────────▼┐ ┌────▼────┐ ┌▼───────────┐
+ │ Market Data   │ │ News     │ │ Trend       │
+ │ Agent         │ │ Agent    │ │ Analysis    │
+ └───────────────┘ └─────────┘ └─────────────┘
+        │                    │
+ ┌──────▼────────┐   ┌───────▼────────┐
+ │ Risk Evaluation│   │ Portfolio       │
+ │ Agent          │   │ Rebalancing     │
+ └──────┬─────────┘   └───────┬────────┘
+        │                     │
+ ┌──────▼──────────┐  ┌───────▼─────────┐
+ │ Insight & Report │  │ Alert &          │
+ │ Generation Agent │  │ Automation Agent│
+ └─────────────────┘  └─────────────────┘
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🤖 Agents & Responsibilities
 
-**Use GitHub Codespaces**
+| Agent                           | Responsibility                                     |
+| ------------------------------- | -------------------------------------------------- |
+| **Market Data Agent**           | Fetches real-time market data                      |
+| **News Intelligence Agent**     | Processes global financial news & sentiment        |
+| **Trend Analysis Agent**        | Technical analysis (RSI, MA, volatility, patterns) |
+| **Risk Evaluation Agent**       | VaR, Sharpe ratio, diversification scoring         |
+| **Portfolio Rebalancing Agent** | Buy/sell simulations & allocation optimization     |
+| **Insight & Report Agent**      | Converts analytics into readable insights          |
+| **Alert & Automation Agent**    | Sends alerts for major market events               |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 🧩 Tech Stack
 
-This project is built with:
+### Backend
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* **Python**
+* **FastAPI** (Agent Orchestrator)
+* **Docker** (Microservices)
+* **Redis** (Key-Value & State Memory)
+* **Vector Database** (Contextual & Time-Series Memory)
 
-## How can I deploy this project?
+### APIs
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+* Yahoo Finance API
+* Alpha Vantage API
+* News API
 
-## Can I connect a custom domain to my Lovable project?
+### Frontend
 
-Yes, you can!
+* **React.js**
+* Data visualization (charts, indicators, reports)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Communication
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+* Event-driven Pub/Sub messaging
+* Loose-coupled agent communication
+
+---
+
+## 🧠 Memory Layer (Contextual Brain)
+
+The system uses a **hybrid memory model**:
+
+* **Vector Memory** → Contextual retrieval & semantic search
+* **Redis (Key-Value Store)** → Fast state management
+* **Time-Series Memory** → Historical market tracking
+
+This allows agents to reason using **both short-term context and long-term history**.
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/multi-agent-financial-intelligence.git
+cd multi-agent-financial-intelligence
+```
+
+### 2️⃣ Environment Variables
+
+Create a `.env` file:
+
+```env
+YAHOO_API_KEY=your_key
+ALPHA_VANTAGE_API_KEY=your_key
+NEWS_API_KEY=your_key
+REDIS_URL=redis://localhost:6379
+```
+
+### 3️⃣ Run with Docker
+
+```bash
+docker-compose up --build
+```
+
+### 4️⃣ Start Orchestrator (Local)
+
+```bash
+uvicorn orchestrator.main:app --reload
+```
+
+---
+
+## 📊 Features Implemented
+
+* ✅ Multi-agent orchestration
+* ✅ Live market data ingestion
+* ✅ News sentiment analysis
+* ✅ Technical indicators (RSI, MA, volatility)
+* ✅ Risk & diversification metrics
+* ✅ Portfolio rebalancing simulations
+* ✅ Insight generation
+* ✅ Real-time alerts
+
+---
+
+## 🛣️ Roadmap
+
+* 🔄 Reinforcement learning for rebalancing
+* 📈 Advanced anomaly detection
+* 🧠 LLM-powered financial reasoning
+* 📱 Mobile dashboard
+* ☁️ AWS Lambda auto-scaling
+* 🔐 Secure auth & user profiles
+
+---
+
+## 🎯 Use Cases
+
+* Retail investors
+* Portfolio managers
+* FinTech research
+* Algorithmic trading assistants
+* Academic & R&D projects
+
+---
+
+## 🤝 Contributions
+
+Pull requests are welcome!
+If you’re into **multi-agent systems, finance, or AI**, this repo is your playground 🛝.
+
+---
+
+## 📜 License
+
+MIT License – build cool stuff responsibly ✨
+
+---
+
