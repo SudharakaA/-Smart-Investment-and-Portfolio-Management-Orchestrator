@@ -1,5 +1,13 @@
-import { Search, Bell, User } from "lucide-react";
+import { Search, Bell, User, Settings, LogOut, CreditCard, UserCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   return (
@@ -30,15 +38,45 @@ const Header = () => {
         </button>
 
         {/* Profile */}
-        <button className="flex items-center gap-3 pl-4 border-l border-border">
-          <div className="text-right">
-            <p className="text-sm font-medium">Alex Morgan</p>
-            <p className="text-xs text-muted-foreground">Pro Investor</p>
-          </div>
-          <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
-            <User className="w-5 h-5 text-primary" />
-          </div>
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-3 pl-4 border-l border-border hover:bg-secondary/50 rounded-lg transition-colors pr-2">
+              <div className="text-right">
+                <p className="text-sm font-medium">Alex Morgan</p>
+                <p className="text-xs text-muted-foreground">Pro Investor</p>
+              </div>
+              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64">
+            <DropdownMenuLabel>
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium">Alex Morgan</p>
+                <p className="text-xs text-muted-foreground">alex.morgan@example.com</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <UserCircle className="w-4 h-4 mr-2" />
+              <span>Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <CreditCard className="w-4 h-4 mr-2" />
+              <span>Billing</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Settings className="w-4 h-4 mr-2" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive">
+              <LogOut className="w-4 h-4 mr-2" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
