@@ -8,8 +8,47 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleProfileClick = () => {
+    navigate("/settings");
+    toast({
+      title: "Profile",
+      description: "Opening your profile settings...",
+    });
+  };
+
+  const handleBillingClick = () => {
+    toast({
+      title: "Billing",
+      description: "Billing management coming soon!",
+    });
+  };
+
+  const handleSettingsClick = () => {
+    navigate("/settings");
+    toast({
+      title: "Settings",
+      description: "Opening settings...",
+    });
+  };
+
+  const handleLogout = () => {
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+      variant: "destructive",
+    });
+    // Add actual logout logic here (clear tokens, redirect to login, etc.)
+    setTimeout(() => {
+      navigate("/");
+    }, 1500);
+  };
   return (
     <header className="h-16 border-b border-border bg-card/30 backdrop-blur-xl flex items-center justify-between px-6">
       {/* Search */}
@@ -58,20 +97,20 @@ const Header = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleProfileClick}>
               <UserCircle className="w-4 h-4 mr-2" />
               <span>Profile</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleBillingClick}>
               <CreditCard className="w-4 h-4 mr-2" />
               <span>Billing</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleSettingsClick}>
               <Settings className="w-4 h-4 mr-2" />
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive">
+            <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               <span>Log out</span>
             </DropdownMenuItem>
