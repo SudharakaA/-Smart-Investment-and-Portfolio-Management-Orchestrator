@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useProfile } from "@/contexts/ProfileContext";
 
 const Header = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { profileData } = useProfile();
 
   const handleProfileClick = () => {
     navigate("/profile");
@@ -81,19 +83,27 @@ const Header = () => {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 pl-4 border-l border-border hover:bg-secondary/50 rounded-lg transition-colors pr-2">
               <div className="text-right">
-                <p className="text-sm font-medium">Alex Morgan</p>
-                <p className="text-xs text-muted-foreground">Pro Investor</p>
+                <p className="text-sm font-medium">{profileData.name}</p>
+                <p className="text-xs text-muted-foreground">{profileData.occupation}</p>
               </div>
-              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
+              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+                {profileData.profileImage ? (
+                  <img 
+                    src={profileData.profileImage} 
+                    alt="Profile" 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User className="w-5 h-5 text-primary" />
+                )}
               </div>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-64">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">Alex Morgan</p>
-                <p className="text-xs text-muted-foreground">alex.morgan@example.com</p>
+                <p className="text-sm font-medium">{profileData.name}</p>
+                <p className="text-xs text-muted-foreground">{profileData.email}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

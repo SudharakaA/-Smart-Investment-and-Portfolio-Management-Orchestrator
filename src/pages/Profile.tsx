@@ -7,22 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useProfile } from "@/contexts/ProfileContext";
 
 const Profile = () => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { profileData, updateProfile, updateProfileImage } = useProfile();
   
-  const [profileData, setProfileData] = useState({
-    name: "Alex Morgan",
-    email: "alex.morgan@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "New York, USA",
-    occupation: "Pro Investor",
-    bio: "Experienced investor with a focus on tech stocks and cryptocurrency markets.",
-    joinDate: "January 2024"
-  });
-
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [localProfileData, setLocalProfileData] = useState(profileData);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +31,8 @@ const Profile = () => {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfileImage(reader.result as string);
+        const imageData = reader.result as string;
+        updateProfileImage(imageData);
         toast({
           title: "Profile picture updated",
           description: "Your profile picture has been changed successfully.",
@@ -50,14 +43,14 @@ const Profile = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setProfileData({
-      ...profileData,
+    setLocalProfileData({
+      ...localProfileData,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleSave = () => {
-    // Here you would typically make an API call to save the data
+    updateProfile(localProfileData);
     toast({
       title: "Profile updated",
       description: "Your profile has been updated successfully.",
@@ -66,7 +59,7 @@ const Profile = () => {
   };
 
   const handleCancel = () => {
-    // Reset to original data if needed
+    setLocalProfileData(profileData);
     setIsEditing(false);
   };
 
@@ -88,9 +81,9 @@ const Profile = () => {
             <CardContent className="flex flex-col items-center">
               <div className="relative group">
                 <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-4 border-primary/20">
-                  {profileImage ? (
+                  {profileData.profileImage ? (
                     <img 
-                      src={profileImage} 
+                      src={profileData.profileImage} 
                       alt="Profile" 
                       className="w-full h-full object-cover"
                     />
@@ -145,7 +138,7 @@ const Profile = () => {
                   <Input
                     id="name"
                     name="name"
-                    value={profileData.name}
+                    value={localProfileData.name}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className={!isEditing ? "bg-secondary/30" : ""}
@@ -161,7 +154,7 @@ const Profile = () => {
                     id="email"
                     name="email"
                     type="email"
-                    value={profileData.email}
+                    value={localProfileData.email}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className={!isEditing ? "bg-secondary/30" : ""}
@@ -176,7 +169,7 @@ const Profile = () => {
                   <Input
                     id="phone"
                     name="phone"
-                    value={profileData.phone}
+                    value={localProfileData.phone}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className={!isEditing ? "bg-secondary/30" : ""}
@@ -191,7 +184,7 @@ const Profile = () => {
                   <Input
                     id="location"
                     name="location"
-                    value={profileData.location}
+                    value={localProfileData.location}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className={!isEditing ? "bg-secondary/30" : ""}
@@ -206,7 +199,7 @@ const Profile = () => {
                   <Input
                     id="occupation"
                     name="occupation"
-                    value={profileData.occupation}
+                    value={localProfileData.occupation}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className={!isEditing ? "bg-secondary/30" : ""}
@@ -221,7 +214,7 @@ const Profile = () => {
                   <Input
                     id="joinDate"
                     name="joinDate"
-                    value={profileData.joinDate}
+                    value={localProfileData.joinDate}
                     disabled
                     className="bg-secondary/30"
                   />
@@ -233,7 +226,7 @@ const Profile = () => {
                 <Textarea
                   id="bio"
                   name="bio"
-                  value={profileData.bio}
+                  value={localProfileData.bio}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   rows={4}
