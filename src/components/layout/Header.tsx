@@ -16,10 +16,10 @@ const Header = () => {
   const { toast } = useToast();
 
   const handleProfileClick = () => {
-    navigate("/settings");
+    navigate("/profile");
     toast({
       title: "Profile",
-      description: "Opening your profile settings...",
+      description: "Opening your profile...",
     });
   };
 
