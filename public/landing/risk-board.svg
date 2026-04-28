@@ -1,0 +1,28 @@
+<svg width="1000" height="640" viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="riskbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111B35"/>
+      <stop offset="100%" stop-color="#1A2540"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="640" fill="url(#riskbg)"/>
+  <rect x="44" y="46" width="912" height="548" rx="22" fill="#0F1A33" stroke="#30426A"/>
+  <text x="86" y="104" fill="#90D8F4" font-family="Arial" font-size="28">Risk &amp; Exposure Board</text>
+  <rect x="80" y="130" width="540" height="420" rx="16" fill="#152345" stroke="#33558D"/>
+  <line x1="120" y1="500" x2="580" y2="500" stroke="#3A5687" stroke-width="2"/>
+  <rect x="140" y="390" width="60" height="110" rx="8" fill="#2B4F82"/>
+  <rect x="230" y="310" width="60" height="190" rx="8" fill="#2B4F82"/>
+  <rect x="320" y="260" width="60" height="240" rx="8" fill="#2B4F82"/>
+  <rect x="410" y="340" width="60" height="160" rx="8" fill="#2B4F82"/>
+  <rect x="500" y="220" width="60" height="280" rx="8" fill="#2B4F82"/>
+  <rect x="655" y="130" width="265" height="200" rx="16" fill="#152345" stroke="#33558D"/>
+  <circle cx="787" cy="232" r="72" fill="none" stroke="#2B4F82" stroke-width="24"/>
+  <path d="M787 160 A72 72 0 0 1 856 250" fill="none" stroke="#32D79B" stroke-width="24"/>
+  <path d="M856 250 A72 72 0 0 1 744 290" fill="none" stroke="#27D3F5" stroke-width="24"/>
+  <text x="787" y="238" fill="#E8F5FF" font-family="Arial" font-size="24" text-anchor="middle">74%</text>
+  <rect x="655" y="350" width="265" height="200" rx="16" fill="#152345" stroke="#33558D"/>
+  <rect x="688" y="392" width="198" height="24" rx="8" fill="#20355C"/>
+  <rect x="688" y="430" width="160" height="24" rx="8" fill="#20355C"/>
+  <rect x="688" y="468" width="184" height="24" rx="8" fill="#20355C"/>
+  <text x="690" y="379" fill="#A2E9CA" font-family="Arial" font-size="20">Current Alerts</text>
+</svg>

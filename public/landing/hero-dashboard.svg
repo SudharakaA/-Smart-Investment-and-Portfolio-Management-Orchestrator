@@ -1,0 +1,33 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A1122"/>
+      <stop offset="100%" stop-color="#131C35"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#27D3F5"/>
+      <stop offset="100%" stop-color="#3BE59A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <rect x="54" y="56" width="1092" height="648" rx="24" fill="#0F1730" stroke="#243357"/>
+  <rect x="94" y="96" width="250" height="122" rx="16" fill="#142042" stroke="#2A3E68"/>
+  <rect x="366" y="96" width="250" height="122" rx="16" fill="#142042" stroke="#2A3E68"/>
+  <rect x="638" y="96" width="250" height="122" rx="16" fill="#142042" stroke="#2A3E68"/>
+  <rect x="910" y="96" width="196" height="122" rx="16" fill="#142042" stroke="#2A3E68"/>
+  <rect x="94" y="244" width="740" height="420" rx="18" fill="#111B38" stroke="#2A3E68"/>
+  <rect x="856" y="244" width="250" height="200" rx="18" fill="#111B38" stroke="#2A3E68"/>
+  <rect x="856" y="464" width="250" height="200" rx="18" fill="#111B38" stroke="#2A3E68"/>
+  <path d="M128 575 L210 522 L296 544 L372 430 L470 456 L562 376 L640 402 L726 308 L800 330" fill="none" stroke="url(#line)" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="210" cy="522" r="7" fill="#27D3F5"/>
+  <circle cx="372" cy="430" r="7" fill="#27D3F5"/>
+  <circle cx="562" cy="376" r="7" fill="#27D3F5"/>
+  <circle cx="726" cy="308" r="7" fill="#27D3F5"/>
+  <rect x="886" y="276" width="58" height="136" rx="8" fill="#1B2A52"/>
+  <rect x="955" y="332" width="58" height="80" rx="8" fill="#1B2A52"/>
+  <rect x="1024" y="304" width="58" height="108" rx="8" fill="#1B2A52"/>
+  <rect x="886" y="496" width="196" height="28" rx="8" fill="#1B2A52"/>
+  <rect x="886" y="540" width="160" height="28" rx="8" fill="#1B2A52"/>
+  <rect x="886" y="584" width="178" height="28" rx="8" fill="#1B2A52"/>
+  <text x="104" y="176" fill="#7DDDF0" font-family="Arial" font-size="22">Live Portfolio Signal Center</text>
+</svg>

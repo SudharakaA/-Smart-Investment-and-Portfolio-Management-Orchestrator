@@ -1,4 +1,4 @@
-import { Search, Bell, User, Settings, LogOut, CreditCard, UserCircle } from "lucide-react";
+import { Search, Bell, User, Settings, LogOut, CreditCard, UserCircle, AlertTriangle, TrendingUp, Newspaper, Shield, Check, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -11,11 +11,24 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useProfile } from "@/contexts/ProfileContext";
+import { useAlerts } from "@/contexts/AlertsContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { cn } from "@/lib/utils";
+
+const alertTypeConfig = {
+  warning: { icon: AlertTriangle, color: "text-warning" },
+  opportunity: { icon: TrendingUp, color: "text-success" },
+  news: { icon: Newspaper, color: "text-primary" },
+  risk: { icon: Shield, color: "text-destructive" },
+};
 
 const Header = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { profileData } = useProfile();
+  const { alerts, unreadCount, connected, markAsRead, dismissAlert } = useAlerts();
+  const { logout } = useAuth();
+  const recentAlerts = alerts.slice(0, 5);
 
   const handleProfileClick = () => {
     navigate("/profile");
@@ -40,16 +53,14 @@ const Header = () => {
     });
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     toast({
       title: "Logged out",
       description: "You have been successfully logged out.",
       variant: "destructive",
     });
-    // Add actual logout logic here (clear tokens, redirect to login, etc.)
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+    navigate("/login");
   };
   return (
     <header className="h-16 border-b border-border bg-card/30 backdrop-blur-xl flex items-center justify-between px-6">
@@ -71,12 +82,73 @@ const Header = () => {
         </div>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-lg hover:bg-secondary/50 transition-colors">
-          <Bell className="w-5 h-5 text-muted-foreground" />
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-destructive rounded-full text-[10px] font-mono flex items-center justify-center">
-            3
-          </span>
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="relative p-2 rounded-lg hover:bg-secondary/50 transition-colors" aria-label="Notifications">
+              <Bell className="w-5 h-5 text-muted-foreground" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-4 h-4 px-1 bg-destructive rounded-full text-[10px] font-mono flex items-center justify-center">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-96">
+            <DropdownMenuLabel className="flex items-center justify-between">
+              <span>Notifications</span>
+              <span className={cn("text-xs font-mono", connected ? "text-success" : "text-warning")}>
+                {connected ? "LIVE" : "RECONNECTING"}
+              </span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {recentAlerts.length === 0 ? (
+              <div className="px-2 py-6 text-sm text-center text-muted-foreground">No live notifications yet.</div>
+            ) : (
+              recentAlerts.map((alert) => {
+                const config = alertTypeConfig[alert.type];
+                const Icon = config.icon;
+                return (
+                  <div key={alert.id} className="px-2 py-2 hover:bg-secondary/40 rounded-md">
+                    <div className="flex items-start gap-2">
+                      <Icon className={cn("w-4 h-4 mt-0.5 shrink-0", config.color)} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className={cn("text-sm truncate", !alert.read && "font-semibold")}>{alert.title}</p>
+                          <span className="text-xs text-muted-foreground shrink-0">{alert.time}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{alert.description}</p>
+                        <p className="text-[11px] text-primary/80 font-mono mt-1">{alert.agent}</p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {!alert.read && (
+                          <button
+                            onClick={() => markAsRead(alert.id)}
+                            className="p-1 rounded hover:bg-secondary"
+                            title="Mark as read"
+                          >
+                            <Check className="w-3.5 h-3.5 text-success" />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => dismissAlert(alert.id)}
+                          className="p-1 rounded hover:bg-secondary"
+                          title="Dismiss"
+                        >
+                          <X className="w-3.5 h-3.5 text-muted-foreground" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer justify-between" onClick={() => navigate("/alerts")}>
+              <span>Open Alerts Center</span>
+              <span className="text-xs text-muted-foreground">{unreadCount} unread</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         {/* Profile */}
         <DropdownMenu>

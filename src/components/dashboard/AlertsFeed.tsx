@@ -1,49 +1,7 @@
 import { AlertTriangle, TrendingUp, Newspaper, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Alert {
-  id: string;
-  type: "warning" | "opportunity" | "news" | "risk";
-  title: string;
-  description: string;
-  time: string;
-  agent: string;
-}
-
-const alerts: Alert[] = [
-  {
-    id: "1",
-    type: "warning",
-    title: "High Volatility Detected",
-    description: "BTC/USD showing unusual volatility patterns. Consider reviewing positions.",
-    time: "2m ago",
-    agent: "Market Data Agent"
-  },
-  {
-    id: "2",
-    type: "opportunity",
-    title: "Bullish Signal: AAPL",
-    description: "RSI crossed above 30, potential reversal pattern forming.",
-    time: "15m ago",
-    agent: "Trend Analysis Agent"
-  },
-  {
-    id: "3",
-    type: "news",
-    title: "Fed Interest Rate Decision",
-    description: "Federal Reserve announces rate decision tomorrow at 2:00 PM EST.",
-    time: "1h ago",
-    agent: "News Intelligence Agent"
-  },
-  {
-    id: "4",
-    type: "risk",
-    title: "Portfolio Concentration Alert",
-    description: "Tech sector exposure exceeds 60% of portfolio. Consider rebalancing.",
-    time: "3h ago",
-    agent: "Risk Evaluation Agent"
-  },
-];
+import { useAlerts } from "@/contexts/AlertsContext";
+import { useNavigate } from "react-router-dom";
 
 const typeConfig = {
   warning: { icon: AlertTriangle, color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
@@ -53,18 +11,25 @@ const typeConfig = {
 };
 
 const AlertsFeed = () => {
+  const { alerts, connected } = useAlerts();
+  const navigate = useNavigate();
+
   return (
     <div className="glass-card p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="font-semibold text-lg">Real-Time Alerts</h3>
-          <p className="text-sm text-muted-foreground">Agent-generated insights</p>
+          <p className="text-sm text-muted-foreground">
+            Agent-generated insights {connected ? "• live" : "• reconnecting"}
+          </p>
         </div>
-        <button className="text-sm text-primary hover:underline">View All</button>
+        <button className="text-sm text-primary hover:underline" onClick={() => navigate("/alerts")}>
+          View All
+        </button>
       </div>
 
       <div className="space-y-3">
-        {alerts.map((alert) => {
+        {alerts.slice(0, 8).map((alert) => {
           const config = typeConfig[alert.type];
           const Icon = config.icon;
           
@@ -93,6 +58,12 @@ const AlertsFeed = () => {
             </div>
           );
         })}
+
+        {alerts.length === 0 && (
+          <div className="text-sm text-muted-foreground p-4 border border-border/60 rounded-lg">
+            Waiting for live alerts...
+          </div>
+        )}
       </div>
     </div>
   );

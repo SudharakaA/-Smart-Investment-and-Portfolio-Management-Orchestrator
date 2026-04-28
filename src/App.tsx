@@ -2,8 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProfileProvider } from "@/contexts/ProfileContext";
+import { AlertsProvider } from "@/contexts/AlertsContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Markets from "./pages/Markets";
 import Portfolio from "./pages/Portfolio";
@@ -13,32 +15,72 @@ import Agents from "./pages/Agents";
 import Alerts from "./pages/Alerts";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return children;
+};
+
+const PublicOnlyRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading...</div>;
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  return children;
+};
+
+const AppRoutes = () => (
+  <Routes>
+    <Route path="/" element={<Landing />} />
+    <Route
+      path="/login"
+      element={
+        <PublicOnlyRoute>
+          <Login />
+        </PublicOnlyRoute>
+      }
+    />
+    <Route
+      path="/dashboard"
+      element={
+        <ProtectedRoute>
+          <Index />
+        </ProtectedRoute>
+      }
+    />
+    <Route path="/markets" element={<ProtectedRoute><Markets /></ProtectedRoute>} />
+    <Route path="/portfolio" element={<ProtectedRoute><Portfolio /></ProtectedRoute>} />
+    <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
+    <Route path="/risk" element={<ProtectedRoute><Risk /></ProtectedRoute>} />
+    <Route path="/agents" element={<ProtectedRoute><Agents /></ProtectedRoute>} />
+    <Route path="/alerts" element={<ProtectedRoute><Alerts /></ProtectedRoute>} />
+    <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ProfileProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/markets" element={<Markets />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/risk" element={<Risk />} />
-            <Route path="/agents" element={<Agents />} />
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ProfileProvider>
+    <AuthProvider>
+      <ProfileProvider>
+        <AlertsProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </TooltipProvider>
+        </AlertsProvider>
+      </ProfileProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

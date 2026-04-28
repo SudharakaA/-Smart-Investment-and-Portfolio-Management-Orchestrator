@@ -1,7 +1,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { User, Bell, Shield, Palette, Database, Key, Globe, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProfile } from "@/contexts/ProfileContext";
+import { useToast } from "@/hooks/use-toast";
 
 const settingsSections = [
   { id: "profile", label: "Profile", icon: User },
@@ -13,6 +15,43 @@ const settingsSections = [
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("profile");
+  const { profileData, updateProfile } = useProfile();
+  const { toast } = useToast();
+  const [profileForm, setProfileForm] = useState({
+    name: profileData.name,
+    email: profileData.email,
+    location: profileData.location,
+    occupation: profileData.occupation,
+    timezone: "UTC-5 (Eastern Time)",
+    currency: "USD ($)",
+  });
+
+  useEffect(() => {
+    setProfileForm((prev) => ({
+      ...prev,
+      name: profileData.name,
+      email: profileData.email,
+      location: profileData.location,
+      occupation: profileData.occupation,
+    }));
+  }, [profileData]);
+
+  const handleProfileChange = (field: keyof typeof profileForm, value: string) => {
+    setProfileForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveProfile = () => {
+    updateProfile({
+      name: profileForm.name,
+      email: profileForm.email,
+      location: profileForm.location,
+      occupation: profileForm.occupation,
+    });
+    toast({
+      title: "Settings saved",
+      description: "Your profile settings were updated.",
+    });
+  };
 
   return (
     <DashboardLayout>
@@ -54,7 +93,15 @@ const Settings = () => {
                 <h2 className="text-lg font-semibold">Profile Settings</h2>
                 <div className="flex items-center gap-6">
                   <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center">
-                    <User size={32} className="text-primary" />
+                    {profileData.profileImage ? (
+                      <img
+                        src={profileData.profileImage}
+                        alt="Profile"
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    ) : (
+                      <User size={32} className="text-primary" />
+                    )}
                   </div>
                   <div>
                     <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium">
@@ -66,15 +113,47 @@ const Settings = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium mb-2 block">Full Name</label>
-                    <input type="text" defaultValue="Alex Morgan" className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none" />
+                    <input
+                      type="text"
+                      value={profileForm.name}
+                      onChange={(e) => handleProfileChange("name", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Email</label>
-                    <input type="email" defaultValue="alex@investx.com" className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none" />
+                    <input
+                      type="email"
+                      value={profileForm.email}
+                      onChange={(e) => handleProfileChange("email", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Location</label>
+                    <input
+                      type="text"
+                      value={profileForm.location}
+                      onChange={(e) => handleProfileChange("location", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Occupation</label>
+                    <input
+                      type="text"
+                      value={profileForm.occupation}
+                      onChange={(e) => handleProfileChange("occupation", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Timezone</label>
-                    <select className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none">
+                    <select
+                      value={profileForm.timezone}
+                      onChange={(e) => handleProfileChange("timezone", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    >
                       <option>UTC-5 (Eastern Time)</option>
                       <option>UTC-8 (Pacific Time)</option>
                       <option>UTC+0 (GMT)</option>
@@ -82,14 +161,21 @@ const Settings = () => {
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Currency</label>
-                    <select className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none">
+                    <select
+                      value={profileForm.currency}
+                      onChange={(e) => handleProfileChange("currency", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary outline-none"
+                    >
                       <option>USD ($)</option>
                       <option>EUR (€)</option>
                       <option>GBP (£)</option>
                     </select>
                   </div>
                 </div>
-                <button className="px-6 py-2 rounded-lg bg-primary text-primary-foreground font-medium">
+                <button
+                  onClick={handleSaveProfile}
+                  className="px-6 py-2 rounded-lg bg-primary text-primary-foreground font-medium"
+                >
                   Save Changes
                 </button>
               </div>

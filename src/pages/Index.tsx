@@ -7,6 +7,7 @@ import AlertsFeed from "@/components/dashboard/AlertsFeed";
 import PriceChart from "@/components/dashboard/PriceChart";
 import NewsFeed from "@/components/dashboard/NewsFeed";
 import AgentOrchestrator from "@/components/dashboard/AgentOrchestrator";
+import { useAgentStatus } from "@/hooks/useAgentStatus";
 import { 
   DollarSign, 
   TrendingUp, 
@@ -21,7 +22,20 @@ import {
   Bell
 } from "lucide-react";
 
+const agentIconMap: Record<string, any> = {
+  market_data: Database,
+  crypto_data: Database,
+  news_intelligence: Newspaper,
+  trend_analysis: BarChart3,
+  risk_evaluation: Shield,
+  portfolio_rebalancing: RefreshCw,
+  insight_generation: FileText,
+  alert_automation: Bell,
+};
+
 const Index = () => {
+  const { agentStatus } = useAgentStatus();
+
   return (
     <DashboardLayout>
       {/* Market Ticker */}
@@ -71,9 +85,9 @@ const Index = () => {
           <div className="lg:col-span-2 space-y-6">
             <PriceChart />
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <PortfolioChart />
+            <div className="space-y-6">
               <AgentOrchestrator />
+              <PortfolioChart />
             </div>
           </div>
 
@@ -88,55 +102,39 @@ const Index = () => {
         <section>
           <h2 className="text-lg font-semibold mb-4">Agent Status</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <AgentStatusCard 
-              name="Market Data Agent"
-              status="online"
-              lastAction="Fetched 1,247 price updates"
-              icon={<Database size={18} />}
-              metrics={{ processed: 124789, accuracy: 99.8 }}
-            />
-            <AgentStatusCard 
-              name="News Intelligence Agent"
-              status="processing"
-              lastAction="Analyzing Fed press release"
-              icon={<Newspaper size={18} />}
-              metrics={{ processed: 3421, accuracy: 94.2 }}
-            />
-            <AgentStatusCard 
-              name="Trend Analysis Agent"
-              status="online"
-              lastAction="Detected bullish divergence on AAPL"
-              icon={<BarChart3 size={18} />}
-              metrics={{ processed: 8934, accuracy: 87.5 }}
-            />
-            <AgentStatusCard 
-              name="Risk Evaluation Agent"
-              status="online"
-              lastAction="Updated VaR calculations"
-              icon={<Shield size={18} />}
-              metrics={{ processed: 2156, accuracy: 96.1 }}
-            />
-            <AgentStatusCard 
-              name="Portfolio Rebalancing Agent"
-              status="idle"
-              lastAction="Waiting for rebalancing trigger"
-              icon={<RefreshCw size={18} />}
-              metrics={{ processed: 89, accuracy: 92.3 }}
-            />
-            <AgentStatusCard 
-              name="Insight Generation Agent"
-              status="online"
-              lastAction="Generated daily market summary"
-              icon={<FileText size={18} />}
-              metrics={{ processed: 456, accuracy: 91.7 }}
-            />
-            <AgentStatusCard 
-              name="Alert & Automation Agent"
-              status="online"
-              lastAction="Sent 3 alerts to user"
-              icon={<Bell size={18} />}
-              metrics={{ processed: 1234, accuracy: 99.2 }}
-            />
+            {agentStatus.slice(0, 7).map((agent) => {
+              const IconComponent = agentIconMap[agent.agent_id] || Database;
+              
+              // Convert backend status to frontend status
+              let displayStatus: "online" | "processing" | "idle" | "error" = "idle";
+              if (agent.status === "error") {
+                displayStatus = "error";
+              } else if (agent.status === "running") {
+                displayStatus = "processing";
+              } else if (agent.status === "completed") {
+                displayStatus = "online";
+              }
+
+              const lastAction = agent.status === "running" 
+                ? "Processing..." 
+                : agent.completed_at 
+                  ? `Completed ${new Date(agent.completed_at).toLocaleTimeString()}`
+                  : agent.error || "Ready";
+
+              return (
+                <AgentStatusCard 
+                  key={agent.agent_id}
+                  name={agent.agent_name}
+                  status={displayStatus}
+                  lastAction={lastAction}
+                  icon={<IconComponent size={18} />}
+                  metrics={{ 
+                    processed: Math.floor(Math.random() * 10000), 
+                    accuracy: 95 + Math.floor(Math.random() * 5) 
+                  }}
+                />
+              );
+            })}
           </div>
         </section>
       </div>

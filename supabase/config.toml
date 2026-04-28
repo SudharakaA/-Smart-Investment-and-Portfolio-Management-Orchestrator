@@ -1,7 +1,0 @@
-project_id = "gfqqtgosgziyagyykulb"
-
-[functions.market-data]
-verify_jwt = false
-
-[functions.crypto-data]
-verify_jwt = false

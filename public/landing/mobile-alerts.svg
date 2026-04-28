@@ -1,0 +1,22 @@
+<svg width="800" height="640" viewBox="0 0 800 640" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="640" fill="#10192F"/>
+  <rect x="270" y="40" width="260" height="560" rx="34" fill="#0D1528" stroke="#395382" stroke-width="6"/>
+  <rect x="300" y="90" width="200" height="40" rx="10" fill="#1D2D4E"/>
+  <rect x="300" y="150" width="200" height="92" rx="12" fill="#1A2A49"/>
+  <rect x="300" y="260" width="200" height="92" rx="12" fill="#1A2A49"/>
+  <rect x="300" y="370" width="200" height="92" rx="12" fill="#1A2A49"/>
+  <rect x="300" y="480" width="200" height="92" rx="12" fill="#1A2A49"/>
+  <circle cx="324" cy="196" r="10" fill="#2EE59C"/>
+  <circle cx="324" cy="306" r="10" fill="#27D3F5"/>
+  <circle cx="324" cy="416" r="10" fill="#F5B737"/>
+  <circle cx="324" cy="526" r="10" fill="#F26F6F"/>
+  <rect x="344" y="182" width="142" height="10" rx="5" fill="#90DCF5"/>
+  <rect x="344" y="200" width="110" height="10" rx="5" fill="#5F7EA8"/>
+  <rect x="344" y="292" width="142" height="10" rx="5" fill="#90DCF5"/>
+  <rect x="344" y="310" width="96" height="10" rx="5" fill="#5F7EA8"/>
+  <rect x="344" y="402" width="142" height="10" rx="5" fill="#90DCF5"/>
+  <rect x="344" y="420" width="102" height="10" rx="5" fill="#5F7EA8"/>
+  <rect x="344" y="512" width="142" height="10" rx="5" fill="#90DCF5"/>
+  <rect x="344" y="530" width="116" height="10" rx="5" fill="#5F7EA8"/>
+  <text x="400" y="72" fill="#AEEAFB" font-family="Arial" font-size="22" text-anchor="middle">Live Alert Center</text>
+</svg>

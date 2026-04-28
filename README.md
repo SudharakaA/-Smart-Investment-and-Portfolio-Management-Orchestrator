@@ -119,27 +119,42 @@ git clone https://github.com/your-username/multi-agent-financial-intelligence.gi
 cd multi-agent-financial-intelligence
 ```
 
-### 2️⃣ Environment Variables
+### 2️⃣ Frontend Setup
 
-Create a `.env` file:
+```bash
+npm install
+```
+
+Create/update `.env` in the project root:
 
 ```env
-YAHOO_API_KEY=your_key
-ALPHA_VANTAGE_API_KEY=your_key
-NEWS_API_KEY=your_key
-REDIS_URL=redis://localhost:6379
+VITE_API_BASE_URL=http://localhost:8000
 ```
 
-### 3️⃣ Run with Docker
+### 3️⃣ Backend Setup
 
 ```bash
-docker-compose up --build
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
 ```
 
-### 4️⃣ Start Orchestrator (Local)
+### 4️⃣ Run Services
+
+Terminal 1 (backend):
 
 ```bash
-uvicorn orchestrator.main:app --reload
+cd backend
+source .venv/bin/activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Terminal 2 (frontend):
+
+```bash
+npm run dev
 ```
 
 ---
@@ -190,4 +205,3 @@ If you’re into **multi-agent systems, finance, or AI**, this repo is your play
 MIT License – build cool stuff responsibly ✨
 
 ---
-

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { getMockCryptoQuotes, getMockMarketQuotes } from '@/lib/mockMarketData';
+import { apiUrl } from '@/lib/api';
 
 export interface MarketQuote {
   symbol: string;
@@ -43,32 +43,29 @@ export function useMarketData(options: UseMarketDataOptions = {}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const { toast } = useToast();
-
   const fetchData = useCallback(async () => {
     if (!enabled) return;
     
     try {
-      console.log('Fetching market data for:', symbols);
-      
-      const { data, error: fnError } = await supabase.functions.invoke('market-data', {
-        body: { symbols }
+      const response = await fetch(apiUrl('/api/market-data'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symbols }),
       });
 
-      if (fnError) {
-        console.error('Function error:', fnError);
-        throw new Error(fnError.message);
+      if (!response.ok) {
+        throw new Error(`Market API returned ${response.status}`);
       }
 
-      if (data?.quotes) {
-        setQuotes(data.quotes);
-        setLastUpdate(new Date(data.timestamp));
-        setError(null);
-        console.log('Market data updated:', data.quotes.length, 'quotes');
-      }
+      const data = await response.json();
+      setQuotes(data?.quotes ?? []);
+      setLastUpdate(new Date(data?.timestamp ?? Date.now()));
+      setError(null);
     } catch (err) {
+      const fallbackQuotes = getMockMarketQuotes(symbols);
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch market data';
-      console.error('Market data error:', errorMessage);
+      setQuotes(fallbackQuotes);
+      setLastUpdate(new Date());
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -95,30 +92,26 @@ export function useCryptoData(options: { refreshInterval?: number; enabled?: boo
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [source, setSource] = useState<string>('');
-
   const fetchData = useCallback(async () => {
     if (!enabled) return;
     
     try {
-      console.log('Fetching crypto data');
-      
-      const { data, error: fnError } = await supabase.functions.invoke('crypto-data');
-
-      if (fnError) {
-        console.error('Function error:', fnError);
-        throw new Error(fnError.message);
+      const response = await fetch(apiUrl('/api/crypto-data'));
+      if (!response.ok) {
+        throw new Error(`Crypto API returned ${response.status}`);
       }
 
-      if (data?.quotes) {
-        setQuotes(data.quotes);
-        setLastUpdate(new Date(data.timestamp));
-        setSource(data.source);
-        setError(null);
-        console.log('Crypto data updated:', data.quotes.length, 'quotes from', data.source);
-      }
+      const data = await response.json();
+      setQuotes(data?.quotes ?? []);
+      setLastUpdate(new Date(data?.timestamp ?? Date.now()));
+      setSource(data?.source ?? 'backend');
+      setError(null);
     } catch (err) {
+      const fallbackQuotes = getMockCryptoQuotes();
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch crypto data';
-      console.error('Crypto data error:', errorMessage);
+      setQuotes(fallbackQuotes);
+      setLastUpdate(new Date());
+      setSource('frontend-fallback');
       setError(errorMessage);
     } finally {
       setLoading(false);

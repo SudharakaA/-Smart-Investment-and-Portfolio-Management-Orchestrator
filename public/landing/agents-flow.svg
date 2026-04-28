@@ -1,0 +1,30 @@
+<svg width="1000" height="640" viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="640" fill="#0D152A"/>
+  <g fill="none" stroke="#2E4A7A" stroke-width="3">
+    <path d="M210 170 L390 250"/>
+    <path d="M500 130 L390 250"/>
+    <path d="M770 170 L610 250"/>
+    <path d="M390 250 L500 390"/>
+    <path d="M610 250 L500 390"/>
+    <path d="M500 390 L500 525"/>
+  </g>
+  <g>
+    <rect x="130" y="120" width="160" height="90" rx="14" fill="#162446" stroke="#38588B"/>
+    <rect x="420" y="80" width="160" height="90" rx="14" fill="#162446" stroke="#38588B"/>
+    <rect x="690" y="120" width="180" height="90" rx="14" fill="#162446" stroke="#38588B"/>
+    <rect x="310" y="210" width="160" height="90" rx="14" fill="#182A53" stroke="#3B62A3"/>
+    <rect x="530" y="210" width="160" height="90" rx="14" fill="#182A53" stroke="#3B62A3"/>
+    <rect x="420" y="350" width="160" height="90" rx="14" fill="#18335A" stroke="#3B74B5"/>
+    <rect x="420" y="490" width="160" height="90" rx="14" fill="#1D3E63" stroke="#3F8DC5"/>
+  </g>
+  <g fill="#9ADCF7" font-family="Arial" font-size="20" text-anchor="middle">
+    <text x="210" y="173">Market Data</text>
+    <text x="500" y="133">News Intel</text>
+    <text x="780" y="173">Trend Analysis</text>
+    <text x="390" y="263">Risk Eval</text>
+    <text x="610" y="263">Rebalance</text>
+    <text x="500" y="403">Insights</text>
+    <text x="500" y="543">Alerts</text>
+  </g>
+  <text x="500" y="40" fill="#7DE6C0" font-family="Arial" font-size="28" text-anchor="middle">Agent Orchestration Flow</text>
+</svg>
