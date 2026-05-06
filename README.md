@@ -192,16 +192,21 @@ npm run dev
 * Academic & R&D projects
 
 ---
-
+Home Page
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 56 27" src="https://github.com/user-attachments/assets/cfa557fd-89df-4f75-842a-7835747a25f7" />
 
+Portfolio Landing
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 57 38" src="https://github.com/user-attachments/assets/b9220e27-d54f-4b39-b38d-b50d3ec7a021" />
+
 
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 57 46" src="https://github.com/user-attachments/assets/8f174bd0-c0c1-43ee-b4ae-bc04db3eb7a8" />
 
+
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 57 53" src="https://github.com/user-attachments/assets/1c3f357c-c6ad-4263-9580-fad4ab9103f7" />
 
+
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 58 05" src="https://github.com/user-attachments/assets/d11c0181-4538-4fee-a1ac-a8fcadcdbec7" />
+
 
 <img width="1440" height="900" alt="Screenshot 2026-05-06 at 18 58 27" src="https://github.com/user-attachments/assets/7b7a07e1-0fb0-433d-8631-3467453c72b9" />
 
